@@ -7,6 +7,7 @@ import JobPage from "./pages/job";
 import ProtectedRoute from "./components/ProtectRoute";
 import { useEffect, useState } from "react";
 import JobDetailPage from "./pages/jobDetail";
+import NotFoundPage from "./pages/notfound";
 
 function App() {
   const navigate = useNavigate();
@@ -27,9 +28,12 @@ function App() {
     }
   }, [pathname, navigate]);
 
+  const validRoutes = ["/", "/jobs", `/jobs/${pathname.split("/")[2]}`];
+  const shouldShowHeader = validRoutes.includes(pathname);
+
   return (
     <div className="App">
-      <Header isLoggedIn={isLoggedIn} />
+      {shouldShowHeader && <Header isLoggedIn={isLoggedIn} />}
       <Routes>
         <Route path="/login" element={<LoginPage />} />
         <Route
@@ -56,6 +60,7 @@ function App() {
             </ProtectedRoute>
           }
         />
+        <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </div>
   );

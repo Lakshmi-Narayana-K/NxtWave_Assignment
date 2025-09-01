@@ -17,7 +17,7 @@ export const Header = ( { isLoggedIn }) => {
   }
     
   return (
-  <Box style={{ display: isLoggedIn ? 'flex' : 'none' }} className='flex justify-between items-center py-4 px-10 bg-gray-800'>
+  <Box className='flex justify-between items-center py-4 px-10 bg-gray-800'>
     <Box className="flex items-center justify-center gap-2 h-auto">
             <img src={JobbyLogo} alt="Jobby Logo" style={{ width: "40px", height: "40px" }} />
             <Typography className="text-[#00969b] text-2xl font-serif">Jobby</Typography>

@@ -8,7 +8,7 @@ import { getAllJobs } from "../../store/modules/jobs";
 
 const JobPage = () => {
   const dispatch = useDispatch();
-  const { data: { profile } } = useSelector((state) => state.user);
+  const { data: { profile } , loading: {profileLoading}} = useSelector((state) => state.user);
   const [filterOptions, setFilterOptions] = useState({
     search: "",
     jobType: [],
@@ -45,6 +45,7 @@ const JobPage = () => {
         profile={profile}
         filterOptions={filterOptions}
         setFilterOptions={setFilterOptions}
+        loading={profileLoading}
       />
       <RightSide handleChange={handleChange} />
     </Box>

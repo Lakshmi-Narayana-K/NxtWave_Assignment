@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Typography } from "@mui/material";
+import { Avatar, Box, Typography } from "@mui/material";
 import SpecificType from "../JobCard/type";
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import MailIcon from '@mui/icons-material/Mail';
@@ -11,7 +11,15 @@ const JobDetailCard = ({ job }) => {
   return (
     <Box className="flex flex-col gap-6 bg-[#262724] p-4 rounded-lg w-full ">
       <Box className="flex flex-row gap-4">
-         <img src={job?.company_logo_url || "#"} alt="company logo" className="w-10 h-10 object-cover rounded-lg" style={{ objectFit: "cover" }} />
+         {/* <img src={job?.company_logo_url || "#"} alt="company logo" className="w-10 h-10 object-cover rounded-lg" style={{ objectFit: "cover" }} /> */}
+         <Avatar
+  src={job.company_logo_url}
+  alt={job?.title}
+  sx={{ width: 40, height: 40, borderRadius: 2, objectFit: "cover" }}
+>
+  {job?.title?.[0]}
+</Avatar>
+
         <Box className="flex flex-col gap-1">
           <Typography className="text-white font-bold">{job.title}</Typography>
           <Typography style={{ fontSize: "15px" }} className="text-white">⭐{job.rating}</Typography>
@@ -37,10 +45,15 @@ const JobDetailCard = ({ job }) => {
       </Box>
       <Box className="flex flex-col gap-2">
         <Typography className="text-white" style={{ fontSize: "15px", fontWeight: "bold" }}>Skills</Typography>
-        <Box className="flex flex-row gap-2 items-center">
+        <Box className="flex gap-4 items-center justify-between flex-wrap">
           {job?.skills?.map((skill) => (
-            <Box className="flex flex-row gap-2 items-center">
-            <img src={skill.image_url} alt="skill" className="w-8 h-8 object-cover rounded-lg" style={{ objectFit: "cover" }} />
+            <Box className="flex flex-row gap-4 items-center">
+            {/* <img src={skill.image_url} alt="skill" className="w-8 h-8 object-cover rounded-lg" style={{ objectFit: "cover" }} /> */}
+            <Avatar
+  sx={{ width: 40, height: 40, borderRadius: 2, objectFit: "cover" }}
+>
+  {skill?.name?.[0]}
+</Avatar>
             <Typography className="text-white" style={{ fontSize: "15px" }}>{skill.name}</Typography>
             </Box>
           ))}
