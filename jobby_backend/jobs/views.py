@@ -3,8 +3,17 @@ from .models import Job
 from django.core.paginator import Paginator
 from django.http import JsonResponse
 from django.db.models import Q
+from rest_framework.decorators import api_view
 
+@api_view(['GET'])
 def get_all_jobs(request):
+    
+    request_method = request.method
+    if request_method != 'GET':
+        return JsonResponse({
+            'error': 'Method not allowed'
+        }, status=405)
+    
     page_number = request.GET.get('page_number', 1)
     items_per_page = request.GET.get('items_per_page', 10)
     search_query = request.GET.get('search', '')
@@ -75,7 +84,13 @@ def get_all_jobs(request):
     return JsonResponse(response_data, status=200)
 
 
+@api_view(['GET'])
 def get_job_details(request, job_id):
+    request_method = request.method
+    if request_method != 'GET':
+        return JsonResponse({
+            'error': 'Method not allowed'
+        }, status=405)
     
     try:
         job = Job.objects.get(id=job_id)
