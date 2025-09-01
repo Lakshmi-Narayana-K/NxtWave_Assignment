@@ -18,7 +18,7 @@ const RightSide = ({ handleChange }) => {
   return (
     <Box className="w-2/3 flex flex-col gap-4 h-[calc(100vh-150px)]">
       <SearchComponent handleChange={handleChange} />
-     { allJobsLoading ? <Box className="flex justify-center items-center h-full"><CircularProgress color="blue" /></Box> : (
+     { allJobsLoading ? <Box className="flex justify-center items-center h-full"><CircularProgress color="white" /></Box> : (
       <Box className="flex flex-col gap-4 h-[calc(100vh-150px)] ">
         {jobs?.jobs?.map((job) => (
         <JobCard key={job.id} job={job} />

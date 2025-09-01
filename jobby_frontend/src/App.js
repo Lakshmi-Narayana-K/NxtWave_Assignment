@@ -8,6 +8,7 @@ import ProtectedRoute from "./components/ProtectRoute";
 import { useEffect, useState } from "react";
 import JobDetailPage from "./pages/jobDetail";
 import NotFoundPage from "./pages/notfound";
+import { Navigate } from "react-router-dom";
 
 function App() {
   const navigate = useNavigate();
@@ -35,7 +36,16 @@ function App() {
     <div className="App">
       {shouldShowHeader && <Header isLoggedIn={isLoggedIn} />}
       <Routes>
-        <Route path="/login" element={<LoginPage />} />
+        <Route
+          path="/login"
+          element={
+            localStorage.getItem("jwt_token") ? (
+              <Navigate to="/" replace />
+            ) : (
+              <LoginPage />
+            )
+          }
+        />
         <Route
           path="/"
           element={
