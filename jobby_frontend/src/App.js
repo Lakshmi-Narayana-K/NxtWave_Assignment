@@ -6,6 +6,7 @@ import Header from "./components/Header";
 import JobPage from "./pages/job";
 import ProtectedRoute from "./components/ProtectRoute";
 import { useEffect, useState } from "react";
+import JobDetailPage from "./pages/jobDetail";
 
 function App() {
   const navigate = useNavigate();
@@ -44,6 +45,14 @@ function App() {
           element={
             <ProtectedRoute>
               <JobPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/jobs/:id"
+          element={
+            <ProtectedRoute>
+              <JobDetailPage />
             </ProtectedRoute>
           }
         />
