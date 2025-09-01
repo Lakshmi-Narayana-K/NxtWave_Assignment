@@ -45,7 +45,7 @@ const JobDetailCard = ({ job }) => {
       </Box>
       <Box className="flex flex-col gap-2">
         <Typography className="text-white" style={{ fontSize: "15px", fontWeight: "bold" }}>Skills</Typography>
-        <Box className="flex gap-4 items-center justify-between flex-wrap">
+        <Box className="flex gap-4 items-center flex-wrap">
           {job?.skills?.map((skill) => (
             <Box className="flex flex-row gap-4 items-center">
             {/* <img src={skill.image_url} alt="skill" className="w-8 h-8 object-cover rounded-lg" style={{ objectFit: "cover" }} /> */}

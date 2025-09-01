@@ -4,10 +4,17 @@ import SearchComponent from "../../../components/Search";
 import { useSelector } from "react-redux";
 import JobCard from "../../../components/JobCard";
 import NoJobsFound from "../../../assets/no-results.png";
-
+import { Button } from "@mui/material";
+import { getAllJobs } from "../../../store/modules/jobs";
+import { useDispatch } from "react-redux";
 const RightSide = ({ handleChange }) => {
-  const { data: { jobs }, loading: { allJobsLoading } } = useSelector((state) => state.jobs);
+  const dispatch = useDispatch();
+  const { data: { jobs }, loading: { allJobsLoading }, error: {allJobsError} } = useSelector((state) => state.jobs);
   
+  const handleReload = () => {
+    dispatch(getAllJobs({}));
+  }
+
   return (
     <Box className="w-2/3 flex flex-col gap-4 h-[calc(100vh-150px)]">
       <SearchComponent handleChange={handleChange} />
@@ -21,6 +28,10 @@ const RightSide = ({ handleChange }) => {
         <Typography className="text-white" style={{ fontSize: "20px" }}>No jobs found</Typography></Box>}
       </Box>
      )}
+     {allJobsError && <Box className="flex flex-col gap-4 justify-center text-center items-center h-full"><Typography className="text-white" style={{ fontSize: "20px" }}>
+      <Typography className="text-white" style={{ fontSize: "15px" }}>Error fetching jobs. Please try again.</Typography>
+      <Button variant="contained" color="primary" onClick={handleReload}>Retry</Button>
+      </Typography></Box>}
     </Box>
   );
 };

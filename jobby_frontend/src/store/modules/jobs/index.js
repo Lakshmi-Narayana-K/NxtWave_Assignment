@@ -6,7 +6,7 @@ export const getAllJobs = createAsyncThunk(
   "getAllJobs",
   async (payload, { rejectWithValue }) => {
     try {
-      const { search, jobType, salaryRange } = payload;
+      const { search = "", jobType = [], salaryRange = "" } = payload;
       const response = await axios.get(
         `${api.allJobsUrl}?search=${search}&employment_type=${jobType}&minimum_package=${salaryRange}`
       );
