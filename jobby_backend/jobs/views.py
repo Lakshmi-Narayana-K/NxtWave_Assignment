@@ -30,7 +30,7 @@ def get_all_jobs(request):
     items_per_page = int(items_per_page)
     minimum_package = 0 if minimum_package == '' else int(minimum_package)
 
-    all_jobs = Job.objects.all()
+    all_jobs = Job.objects.all().distinct()
 
     if search_query:
         all_jobs = all_jobs.filter(Q(title__icontains=search_query) | Q(skills__name__icontains=search_query)).distinct()
@@ -44,7 +44,7 @@ def get_all_jobs(request):
             query |= Q(employment_type__icontains=type)
         all_jobs = all_jobs.filter(query)
 
-    all_jobs = all_jobs.order_by('-id')
+    all_jobs = all_jobs.order_by('-id').distinct()
 
     paginator = Paginator(all_jobs, items_per_page)
     
