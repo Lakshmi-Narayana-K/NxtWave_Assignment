@@ -1,5 +1,5 @@
 import React from 'react'
-import { Box, Typography } from '@mui/material'
+import { Box } from '@mui/material'
 import { Link } from 'react-router-dom'
 import NotFound from '../../assets/not-found.jpg'
 import { ArrowRightOutlined } from '@mui/icons-material'

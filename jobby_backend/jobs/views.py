@@ -33,7 +33,7 @@ def get_all_jobs(request):
     all_jobs = Job.objects.all()
 
     if search_query:
-        all_jobs = all_jobs.filter(Q(title__icontains=search_query) | Q(skills__name__icontains=search_query))
+        all_jobs = all_jobs.filter(Q(title__icontains=search_query) | Q(skills__name__icontains=search_query)).distinct()
     
     if minimum_package:
         all_jobs = all_jobs.filter(package_per_annum__gte=minimum_package)

@@ -11,7 +11,6 @@ const JobDetailCard = ({ job }) => {
   return (
     <Box className="flex flex-col gap-6 bg-[#262724] p-4 rounded-lg w-full ">
       <Box className="flex flex-row gap-4">
-         {/* <img src={job?.company_logo_url || "#"} alt="company logo" className="w-10 h-10 object-cover rounded-lg" style={{ objectFit: "cover" }} /> */}
          <Avatar
   src={job.company_logo_url}
   alt={job?.title}
@@ -46,9 +45,8 @@ const JobDetailCard = ({ job }) => {
       <Box className="flex flex-col gap-2">
         <Typography className="text-white" style={{ fontSize: "15px", fontWeight: "bold" }}>Skills</Typography>
         <Box className="flex gap-4 items-center flex-wrap">
-          {job?.skills?.map((skill) => (
-            <Box className="flex flex-row gap-4 items-center">
-            {/* <img src={skill.image_url} alt="skill" className="w-8 h-8 object-cover rounded-lg" style={{ objectFit: "cover" }} /> */}
+          {job?.skills?.map((skill, index) => (
+            <Box key={`${skill.name}-${index}`} className="flex flex-row gap-4 items-center">
             <Avatar
   sx={{ width: 40, height: 40, borderRadius: 2, objectFit: "cover" }}
 >

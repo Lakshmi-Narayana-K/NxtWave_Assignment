@@ -3,13 +3,12 @@ import { Box, Typography } from "@mui/material";
 import { Button as CustomButton } from "../../components/Button";
 import { InputField as CustomInputField } from "../../components/InputField";
 import JobbyLogo from "../../assets/jobby-logo.svg";
-import { useDispatch, useSelector } from "react-redux";
-import { loginUser } from "../../store/modules/user";
+import { observer } from 'mobx-react';
+import { useStore } from "../../store/StoreContext";
 import { useNavigate } from "react-router-dom";
 
-const LoginPage = () => {
-  const dispatch = useDispatch();
-  const { loading: { loginLoading }, error: { loginError }, data: { jwt_token } } = useSelector((state) => state.user);
+const LoginPage = observer(() => {
+  const { userStore } = useStore();
   const navigate = useNavigate();
   const [loginData, setLoginData] = useState({
     username: "",
@@ -19,31 +18,34 @@ const LoginPage = () => {
   const [message, setMessage] = useState("");
 
   useEffect(() => {
-    if (loginError?.error_msg) {
-      setMessage(loginError.error_msg);
+    if (userStore.loginError?.error_msg) {
+      setMessage(userStore.loginError.error_msg);
       const timer = setTimeout(() => setMessage(""), 3000);
       return () => clearTimeout(timer);
     }
-  }, [loginError]);
+  }, [userStore.loginError]);
 
   useEffect(() => {
-    if (jwt_token) {
-      localStorage.setItem("jwt_token", jwt_token);
+    if (userStore.jwt_token) {
+      localStorage.setItem("jwt_token", userStore.jwt_token);
       setMessage("Login successful!");
       navigate("/");
       const timer = setTimeout(() => setMessage(""), 2000);
       return () => clearTimeout(timer);
     }
-  }, [jwt_token, navigate]);
+  }, [userStore.jwt_token, navigate]);
 
-  const handleLogin = () => {
+  const handleLogin = async () => {
     if (!loginData.username.trim() || !loginData.password.trim()) {
       setMessage("Please fill all the fields");
       const timer = setTimeout(() => setMessage(""), 3000);
       return () => clearTimeout(timer);
     }
     setMessage("");
-    dispatch(loginUser(loginData));
+    try {
+      await userStore.loginUser(loginData);
+    } catch (error) {
+    }
   };
 
   return (
@@ -73,7 +75,7 @@ const LoginPage = () => {
             </Box>
 
             <Box className="flex flex-col gap-2 w-full">
-              <CustomButton label={loginLoading ? "Logging in..." : "Login"} onClick={handleLogin} disabled={loginLoading} className="w-full"/>
+              <CustomButton label={userStore.loginLoading ? "Logging in..." : "Login"} onClick={handleLogin} disabled={userStore.loginLoading} className="w-full"/>
               {message && <Typography className="text-red-500 text-sm">{message}</Typography>}
             </Box>
           </Box>
@@ -81,6 +83,6 @@ const LoginPage = () => {
       </Box>
     </Box>
   );
-};
+});
 
 export default LoginPage;

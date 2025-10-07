@@ -3,16 +3,15 @@ import { Box, Typography } from '@mui/material';
 import JobbyLogo from '../../assets/jobby-logo.svg';
 import { Link, useNavigate } from 'react-router-dom';
 import { Button as CustomButton  } from '../../components/Button';
-import { useDispatch } from 'react-redux';
-import { logout } from '../../store/modules/user';
+import { observer } from 'mobx-react';
+import { useStore } from '../../store/StoreContext';
 
-export const Header = ( { isLoggedIn }) => {
-  const dispatch = useDispatch();
+const Header = observer(({ isLoggedIn }) => {
+  const { userStore } = useStore();
   const navigate = useNavigate(); 
 
-
   const handleLogout = () => {
-    dispatch(logout());
+    userStore.logout();
     navigate('/login');
   }
     
@@ -33,7 +32,7 @@ export const Header = ( { isLoggedIn }) => {
     {isLoggedIn ? <CustomButton label="Logout" onClick={handleLogout}/> : <CustomButton label="Login" onClick={() => navigate('/login')}/>}
   </Box>
   )
-}
+});
 
 export default Header;
 

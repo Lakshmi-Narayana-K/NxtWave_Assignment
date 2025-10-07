@@ -1,14 +1,12 @@
 import React, { useEffect, useState, useRef } from "react";
 import { Box } from "@mui/material";
 import LeftSide from "./LeftSide";
-import { useSelector, useDispatch } from "react-redux";
-import { getProfile } from "../../store/modules/user";
+import { observer } from 'mobx-react';
+import { useStore } from "../../store/StoreContext";
 import RightSide from "./RightSide";
-import { getAllJobs } from "../../store/modules/jobs";
 
-const JobPage = () => {
-  const dispatch = useDispatch();
-  const { data: { profile } , loading: {profileLoading}, error: {profileError}} = useSelector((state) => state.user);
+const JobPage = observer(() => {
+  const { userStore, jobsStore } = useStore();
   const [filterOptions, setFilterOptions] = useState({
     search: "",
     jobType: [],
@@ -28,29 +26,26 @@ const JobPage = () => {
   };
 
   useEffect(() => {
-    dispatch(getAllJobs(filterOptions));
+    jobsStore.getAllJobs(filterOptions);
   }, [filterOptions]);
 
   useEffect(() => {
-    dispatch(getProfile());
+    userStore.getProfile();
   }, []);
 
-  useEffect(() => {
-    console.log("filterOptions", filterOptions);
-  }, [filterOptions]);
 
   return (
     <Box className="flex gap-20 w-full h-full px-20 py-10">
       <LeftSide
-        profile={profile}
+        profile={userStore.profile}
         filterOptions={filterOptions}
         setFilterOptions={setFilterOptions}
-        loading={profileLoading}
-        error={profileError}
+        loading={userStore.profileLoading}
+        error={userStore.profileError}
       />
       <RightSide handleChange={handleChange} />
     </Box>
   );
-};
+});
 
 export default JobPage;

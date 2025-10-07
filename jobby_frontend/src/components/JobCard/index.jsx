@@ -10,7 +10,6 @@ const JobCard = ({ job }) => {
   return (
     <Box className="flex flex-col gap-6 bg-[#262724] p-4 rounded-lg w-full cursor-pointer" onClick={() => navigate(`/jobs/${job.id}`)}>
       <Box className="flex flex-row gap-4">
-         {/* <img src={job.company_logo_url} alt="company logo" className="w-10 h-10 object-cover rounded-lg" style={{ objectFit: "cover" }} /> */}
         <Avatar
   src={job.company_logo_url}
   alt={job?.title}

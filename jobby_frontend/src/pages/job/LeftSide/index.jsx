@@ -2,13 +2,14 @@ import React from "react";
 import { Box, Typography, Button } from "@mui/material";
 import ProfileCard from "./profile";
 import FilterSection from "../../../components/Filter";
-import { getProfile } from "../../../store/modules/user";
-import { useDispatch } from "react-redux";
+import { observer } from 'mobx-react';
+import { useStore } from "../../../store/StoreContext";
 
-const LeftSide = ({ profile, filterOptions, setFilterOptions, loading, error }) => {
-  const dispatch = useDispatch();
+const LeftSide = observer(({ profile, filterOptions, setFilterOptions, loading, error }) => {
+  const { userStore } = useStore();
+  
   const handleReload = () => {
-    dispatch(getProfile());
+    userStore.getProfile();
   }
   return (
       <Box className="w-1/3 flex flex-col gap-4">
@@ -23,6 +24,6 @@ const LeftSide = ({ profile, filterOptions, setFilterOptions, loading, error }) 
         <FilterSection title="salaryRange" type="radio" filterOptions={filterOptions} setFilterOptions={setFilterOptions} />
       </Box>
   );
-};
+});
 
 export default LeftSide;  

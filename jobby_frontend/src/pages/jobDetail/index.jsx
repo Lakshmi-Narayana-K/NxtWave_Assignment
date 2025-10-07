@@ -1,33 +1,28 @@
 import { Box, Typography, CircularProgress } from '@mui/material'
 import { useParams } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { getJobById } from '../../store/modules/jobs';
+import { observer } from 'mobx-react';
+import { useStore } from '../../store/StoreContext';
 import { useEffect } from 'react';
 import JobDetailCard from '../../components/JobDetailCard';
 import SimilarJobCard from '../../components/JobDetailCard/similarJob';
 
-const JobDetailPage = () => {
+const JobDetailPage = observer(() => {
   const { id } = useParams();
-  console.log(id);
-  const dispatch = useDispatch();
-  const { 
-  data: { jobDetails, similarJobs } = {}, 
-  loading: { jobDetailsLoading } = {} 
-} = useSelector((state) => state.jobs || {});
+  const { jobsStore } = useStore();
 
   useEffect(() => {
-    dispatch(getJobById({ jobId: id }));
+    jobsStore.getJobById(id);
   }, [id]);
 
   return (
     <Box className='flex flex-col gap-4 overflow-y-auto' style={{ margin: "20px 100px" }}>
-      {jobDetailsLoading ? <Box className="flex justify-center items-center h-full"><CircularProgress color="blue" /></Box> : (
+      {jobsStore.jobDetailsLoading ? <Box className="flex justify-center items-center h-full"><CircularProgress color="blue" /></Box> : (
         <Box className="flex flex-col gap-4 h-full">
-          <JobDetailCard key={id} job={jobDetails} />
+          <JobDetailCard key={id} job={jobsStore.jobDetails} />
           <Box className="flex flex-col gap-4">
             <Typography className="text-white" style={{ fontSize: "15px", fontWeight: "bold" }}>Similar Jobs</Typography>
             <Box className="flex flex-row gap-4 overflow-x-auto w-full " style={{ scrollbarWidth: "none" }}>
-            {similarJobs?.map((job) => (
+            {jobsStore.similarJobs?.map((job) => (
               <SimilarJobCard key={job.id} job={job} />
             ))}
           </Box>
@@ -36,6 +31,6 @@ const JobDetailPage = () => {
       )}
       </Box>
   )
-}
+});
 
-export default JobDetailPage
+export default JobDetailPage;
